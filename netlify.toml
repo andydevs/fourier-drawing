@@ -5,5 +5,5 @@
 
 # Build config
 [build]
-    command='grunt'
+    command='npm run build'
     publish='public/'

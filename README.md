@@ -41,7 +41,15 @@ To build the app, run
 
     $ npx webpack
 
+Or
+
+    $ npm run build
+
 The boilerplate also provides a development server which
 could be run with
 
     $ npx webpack-dev-server
+
+Or
+
+    $ npm serve

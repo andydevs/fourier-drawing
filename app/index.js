@@ -5,15 +5,17 @@
  * Created: [Date of Creation]
  */
 import './style/main.scss'
+import elon from './assets/images/elon.jpg'
 
-// Elements
-var button = document.getElementById('destupid')
-var elon = document.getElementById('elon')
-var title = document.getElementById('title')
+// Get app
+let app = document.getElementById('app')
+app.innerHTML = '<h1 id="title">Eyyyyy</h1>'
+    + `<img id="elon" src="${elon}">`
+    + '<button id="destupid">Make it less Stupid</button>'
 
-// Add listener
-button.addEventListener('click', function(event) {
-    elon.style = 'display: block;'
-    title.innerHTML = 'It\'s Elon!'
-    button.disabled = true
+// Destupid button
+document.getElementById('destupid').addEventListener('click', function() {
+    document.getElementById('title').innerText = 'It\'s Elon!'
+    document.getElementById('elon').style.display = 'block'
+    document.getElementById('destupid').style.display = 'none'
 })

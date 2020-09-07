@@ -3,7 +3,7 @@ Web Template
 
 [![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/andydevs/web-boilerplate)
 
-Use this template for building basic static websites.
+Use this template for building single page web applications.
 
 On the repository webpage, you can either click 
 `Use this Template` which will create a new repository with
@@ -29,15 +29,12 @@ _Technologies_
 
 _Folder Structure_
 
-| Folder      |                             Use |
-|:------------|--------------------------------:|
-| `app`       |                Application Code |
-| `app/style` |                SCSS Stylesheets |
-| `pages`     |                   HTML Pages \* |
-| `assets`    |   Static Assets for the Site \* |
-| `public`    | Build Output Directory for Site |
-
-\* _Folder contents (subfolders included) are copied over to the `public` directory_
+| Folder       |                             Use |
+|:-------------|--------------------------------:|
+| `app`        |                Application Code |
+| `app/style`  |                SCSS Stylesheets |
+| `app/assets` |      Static Assets for the Site |
+| `public`     | Build Output Directory for Site |
 
 ### Building and Running
 

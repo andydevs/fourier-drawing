@@ -86,6 +86,19 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./app/assets/images/elon.jpg":
+/*!************************************!*\
+  !*** ./app/assets/images/elon.jpg ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "e756d9169622e29fa66929ee4d5bf873.jpg");
+
+/***/ }),
+
 /***/ "./app/index.js":
 /*!**********************!*\
   !*** ./app/index.js ***!
@@ -97,22 +110,23 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _style_main_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./style/main.scss */ "./app/style/main.scss");
 /* harmony import */ var _style_main_scss__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_style_main_scss__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _assets_images_elon_jpg__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./assets/images/elon.jpg */ "./app/assets/images/elon.jpg");
 /**
  * Use this template for building basic static websites
  * 
- * Author:  Anshul Kharbanda
+ * Author:  [Your Name Here]
  * Created: [Date of Creation]
  */
- // Elements
 
-var button = document.getElementById('destupid');
-var elon = document.getElementById('elon');
-var title = document.getElementById('title'); // Add listener
+ // Get app
 
-button.addEventListener('click', function (event) {
-  elon.style = 'display: block;';
-  title.innerHTML = 'It\'s Elon!';
-  button.disabled = true;
+var app = document.getElementById('app');
+app.innerHTML = '<h1 id="title">Eyyyyy</h1>' + "<img id=\"elon\" src=\"".concat(_assets_images_elon_jpg__WEBPACK_IMPORTED_MODULE_1__["default"], "\">") + '<button id="destupid">Make it less Stupid</button>'; // Destupid button
+
+document.getElementById('destupid').addEventListener('click', function () {
+  document.getElementById('title').innerText = 'It\'s Elon!';
+  document.getElementById('elon').style.display = 'block';
+  document.getElementById('destupid').style.display = 'none';
 });
 
 /***/ }),
@@ -157,7 +171,7 @@ module.exports = content.locals || {};
 var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
 exports = ___CSS_LOADER_API_IMPORT___(false);
 // Module
-exports.push([module.i, "/**\r\n * Use this template for building basic static websites\r\n * \r\n * Author:  Anshul Kharbanda\r\n * Created: [Date of Creation]\r\n */\n* {\n  font-family: Verdana, Geneva, Tahoma, sans-serif; }\n\n#elon {\n  display: none; }\n\n#title {\n  color: green; }\n\n#destupid {\n  background: none;\n  color: black;\n  border: 1px solid black;\n  padding: 4pt 8pt;\n  border-radius: 4pt; }\n  #destupid:hover {\n    background-color: #bbb; }\n  #destupid:disabled {\n    background-color: #fafafa;\n    color: #555;\n    border-color: #555; }\n", ""]);
+exports.push([module.i, "/**\r\n * Use this template for building basic static websites\r\n * \r\n * Author:  [Your Name Here]\r\n * Created: [Date of Creation]\r\n */\n* {\n  font-family: Verdana, Geneva, Tahoma, sans-serif; }\n\n#elon {\n  display: none; }\n\n#title {\n  color: green; }\n\n#destupid {\n  background: none;\n  color: black;\n  border: 1px solid black;\n  padding: 4pt 8pt;\n  border-radius: 4pt; }\n  #destupid:hover {\n    background-color: #bbb; }\n  #destupid:disabled {\n    background-color: #fafafa;\n    color: #555;\n    border-color: #555; }\n", ""]);
 // Exports
 module.exports = exports;
 

@@ -4,7 +4,6 @@
  * Author:  [Your Name Here]
  * Created: [Date of Creation]
  */
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const path = require('path')
 
 // Webpack config
@@ -36,15 +35,12 @@ module.exports = {
                     'css-loader',
                     'sass-loader'
                 ]
+            },
+            {
+                test: /\.(jpg|png|svg)$/,
+                exclude: /node_modules/,
+                use: 'file-loader'
             }
         ]
-    },
-    plugins: [
-        new CopyWebpackPlugin({
-            patterns: [
-                { from: 'assets', noErrorOnMissing: true }, 
-                'pages'
-            ]
-        })
-    ]
+    }
 }

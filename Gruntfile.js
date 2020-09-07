@@ -17,8 +17,7 @@ module.exports = function configGrunt(grunt) {
             webpack: {
                 files: [
                     'app/**/*',
-                    'assets/**/*',
-                    'pages/*'
+                    'assets/**/*'
                 ],
                 tasks: ['webpack']
             }

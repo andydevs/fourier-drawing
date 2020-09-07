@@ -52,4 +52,4 @@ could be run with
 
 Or
 
-    $ npm serve
+    $ npm start

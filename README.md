@@ -20,12 +20,11 @@ Development
 
 _Technologies_
 
-| Part              |  System |
-|:------------------|--------:|
-| Task Runner       |   Grunt |
-| Web Code Bundling | Webpack |
-| Stylesheets       |    SCSS |
-| Transpilation     |   Babel |
+| Part          |  System |
+|:--------------|--------:|
+| Bundling      | Webpack |
+| Stylesheets   |    SCSS |
+| Transpilation |   Babel |
 
 _Folder Structure_
 
@@ -40,16 +39,9 @@ _Folder Structure_
 
 To build the app, run
 
-    $ grunt
+    $ npx webpack
 
 The boilerplate also provides a development server which
 could be run with
 
-    $ grunt serve
-
-`grunt serve` will automatically open the built page in a web 
-browser and start watching for changes in any of these files.
-Due to the structure of this boilerplate (namely the html
-pages being copied over every build), you may need to fully 
-reload the webpage a couple times for it to update with the 
-changes.
+    $ npx webpack-dev-server

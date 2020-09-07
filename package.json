@@ -1,0 +1,26 @@
+{
+  "name": "my-website",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "keywords": [],
+  "license": "MIT",
+  "private": true,
+  "scripts": {},
+  "devDependencies": {
+    "grunt": "^1.2.1",
+    "grunt-cli": "^1.3.2",
+    "grunt-contrib-connect": "^2.1.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-webpack": "^3.1.3",
+    "webpack": "^4.43.0",
+    "babel-loader": "^8.1.0",
+    "@babel/core": "^7.10.5",
+    "@babel/preset-env": "^7.10.4",
+    "style-loader": "^1.2.1",
+    "css-loader": "^3.6.0",
+    "sass-loader": "^9.0.2",
+    "node-sass": "^4.14.1",
+    "copy-webpack-plugin": "^6.0.3"
+  }
+}

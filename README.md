@@ -1,7 +1,7 @@
 SPA Boilerplate
 ===========================================================
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/andydevs/web-boilerplate)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/andydevs/spa-boilerplate)
 
 Use this template for building single page web applications.
 

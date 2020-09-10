@@ -1,8 +1,8 @@
 /**
- * Use this template for building basic static websites
+ * A visual that demos drawing paths using a fourier series.
  * 
- * Author:  [Your Name Here]
- * Created: [Date of Creation]
+ * Author:  Anshul Kharbanda
+ * Created: 9 - 10 - 2020
  */
 import './style/main.scss'
 import elon from './assets/images/elon.jpg'

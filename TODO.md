@@ -32,6 +32,7 @@ Backlog
     - [ ] SVG Analysis
 - [ ] Usage
     - [ ] How to use the form
+- [ ] Credits
 
 Upcoming
 -----------------------------------------------------------------------------------

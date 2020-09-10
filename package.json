@@ -1,9 +1,9 @@
 {
-  "name": "my-website",
-  "version": "1.0.0",
-  "description": "",
-  "author": "",
-  "keywords": [],
+  "name": "fourier-drawing",
+  "version": "0.0.0",
+  "description": "A visual that demos drawing paths using a fourier series.",
+  "author": "Anshul Kharbanda",
+  "keywords": ["fourier", "canvas", "webpack"],
   "license": "MIT",
   "private": true,
   "scripts": {

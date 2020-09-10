@@ -1,20 +1,13 @@
 SPA Boilerplate
-===========================================================
+===================================================================
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/andydevs/spa-boilerplate)
+A visual that demos drawing paths using a fourier series.
 
-Use this template for building single page web applications.
-
-On the repository webpage, you can either click 
-`Use this Template` which will create a new repository with
-the template code, or you can click the "Deploy to Netlify" button in
-the README, which will both create a new repository and
-deploy a new website to Netlify.
-
-**[DELETE THE NETLIFY BUTTON AND EDIT THIS PART WITH THE DESCRIPTION OF YOUR SITE]**
+Check out this [video by 3Blue1Brown][3b1b] and this 
+[video by CodingTrain][cdtr] to learn more about the math.
 
 Development
------------------------------------------------------------
+-------------------------------------------------------------------
 
 ### Application Architecture
 
@@ -53,3 +46,12 @@ could be run with
 Or
 
     $ npm start
+
+-------------------------------------------------------------------
+
+_Created with [SPA boilerplate][spa] made by [Andydevs][andydevs]_
+
+[spa]: http://github.com/andydevs/spa-boilerplate
+[andydevs]: http://github.com/andydevs
+[3b1b]: https://www.youtube.com/watch?v=r6sGWTCMz2k
+[cdtr]: https://www.youtube.com/watch?v=Mm2eYfj0SgA

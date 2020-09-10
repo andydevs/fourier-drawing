@@ -39,7 +39,7 @@ Upcoming
 
 ### Base Algorithm
 
-- [ ] Canvas
+- [x] Canvas (9 - 10 - 2020)
 - [ ] Draw Path
     - [ ] Rotating vector
     - [ ] Scaled rotating vector

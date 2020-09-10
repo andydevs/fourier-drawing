@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "description": "A visual that demos drawing paths using a fourier series.",
   "author": "Anshul Kharbanda",
-  "keywords": ["fourier", "canvas", "webpack"],
+  "keywords": [
+    "fourier",
+    "canvas",
+    "webpack"
+  ],
   "license": "MIT",
   "private": true,
   "scripts": {

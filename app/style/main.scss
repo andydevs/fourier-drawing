@@ -4,31 +4,3 @@
  * Author:  Anshul Kharbanda
  * Created: 9 - 10 - 2020
  */
-
-* {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-#elon {
-    display: none;
-}
-
-#title {
-    color: green;
-}
-
-#destupid {
-    background: none;
-    color: black;
-    border: 1px solid black;
-    padding: 4pt 8pt;
-    border-radius: 4pt;
-    &:hover {
-        background-color: #bbb;
-    }
-    &:disabled {
-        background-color: #fafafa;
-        color: #555;
-        border-color: #555;
-    }
-}

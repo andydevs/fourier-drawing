@@ -6,6 +6,8 @@
  */
 import './style/main.scss'
 
+// -------------------------------- CONTEXT --------------------------------
+
 // Get draw context
 const fout = document.getElementById('fourout')
 const width = fout.width
@@ -14,22 +16,7 @@ const fctx = fout.getContext('2d')
 const scale = 50
 const dth = 0.005
 
-// Correction things
-const ORIGIN = { x: width/2, y: height/2 }
-const sCorrect = a => ({ x: scale*a.x, y: scale*a.y })
-const aCorrect = a => ({ x: a.x + ORIGIN.x, y: a.y + ORIGIN.y })
-const correct = a => aCorrect(sCorrect(a))
-
-/**
- * Performs scaling of vectors
- * 
- * @param {float} s scale factor
- * @param {{x: float, y: float}} a vector
- */
-const vscale = (s, a) => ({
-    x: s * a.x,
-    y: s * a.y
-})
+// -------------------------------- VECTOR ---------------------------------
 
 /**
  * Performs vector addition on two vectors
@@ -52,19 +39,13 @@ const vround = a => ({
     y: Math.round(a.y)
 })
 
-// Build a random fourier series of n elements
-console.group('Fourier Series')
-const n = 6
-const fscale = 1.0
-const fourier = [{ s: 0, o: 0 }]
-for (let i = 0; i < n; i++) {
-    fourier.push({
-        s: fscale * Math.random() * n / (i + 1), // Scale
-        o: Math.random()*Math.PI*2 // Offset    
-    })
-}
-console.log(fourier)
-console.groupEnd()
+// Correction things
+const ORIGIN = { x: width/2, y: height/2 }
+const sCorrect = a => ({ x: scale*a.x, y: scale*a.y })
+const aCorrect = a => ({ x: a.x + ORIGIN.x, y: a.y + ORIGIN.y })
+const correct = a => aCorrect(sCorrect(a))
+
+// -------------------------------- FOURIER --------------------------------
 
 function getFourierPath(fourier) {
     console.group('getFourierPath')
@@ -118,6 +99,18 @@ function getFourierPath(fourier) {
     return path
 }
 
+function updateFourierState(fourierState) {
+    return fourierState.map(({ scale, offset, rotation, vector }) => ({
+        scale, offset, rotation,
+        vector: {
+            x: rotation.xx*vector.x + rotation.xy*vector.y,
+            y: rotation.yx*vector.x + rotation.yy*vector.y
+        }
+    }))
+}
+
+// ------------------------------ DRAWING ------------------------------
+
 function drawPath(path) {
     fctx.lineWidth = '3'
     fctx.strokeStyle = '#045'
@@ -166,15 +159,21 @@ function drawCircles(fourierState) {
     })
 }
 
-function updateFourierState(fourierState) {
-    return fourierState.map(({ scale, offset, rotation, vector }) => ({
-        scale, offset, rotation,
-        vector: {
-            x: rotation.xx*vector.x + rotation.xy*vector.y,
-            y: rotation.yx*vector.x + rotation.yy*vector.y
-        }
-    }))
+// ------------------------------- MAIN -------------------------------
+
+// Build a random fourier series of n elements
+console.group('Fourier Series')
+const n = 6
+const fscale = 1.0
+const fourier = [{ s: 0, o: 0 }]
+for (let i = 0; i < n; i++) {
+    fourier.push({
+        s: fscale * Math.random() * n / (i + 1), // Scale
+        o: Math.random()*Math.PI*2 // Offset    
+    })
 }
+console.log(fourier)
+console.groupEnd()
 
 // Get fourier path
 let path = getFourierPath(fourier)

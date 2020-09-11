@@ -18,32 +18,58 @@ const dth = 0.005
 
 // -------------------------------- VECTOR ---------------------------------
 
-/**
- * Performs vector addition on two vectors
- * 
- * @param {{x: float, y: float}} a first vector
- * @param {{x: float, y: float}} b second vector
- */
-const vsum = (a, b) => ({
-    x: a.x + b.x,
-    y: a.y + b.y
-})
+class RotationMatrix {
+    constructor(n, dth) {
+        let arc = n*dth
+        let sarc = Math.sin(arc)
+        let carc = Math.cos(arc)
+        this.xx = carc
+        this.xy = -sarc
+        this.yx = sarc
+        this.yy = carc
+    }
 
-/**
- * Rounds vector
- * 
- * @param {{x: float, y: float}} a vector to round
- */
-const vround = a => ({
-    x: Math.round(a.x),
-    y: Math.round(a.y)
-})
+    transform(vector) {
+        return new Vector(
+            this.xx*vector.x + this.xy*vector.y,
+            this.yx*vector.x + this.yy*vector.y
+        )
+    }
+}
+
+class Vector {
+    static scaleOffset(s, o) {
+        return new Vector(s*Math.cos(o), s*Math.sin(o))
+    }
+
+    constructor(x, y) {
+        this.x = x
+        this.y = y
+    }
+
+    plus(other) {
+        return new Vector(this.x + other.x, this.y + other.y)
+    }
+
+    times(scalar) {
+        return new Vector(this.x * scalar, this.y * scalar)
+    }
+
+    round() {
+        return new Vector(
+            Math.round(this.x),
+            Math.round(this.y)
+        )
+    }
+}
+Vector.ZERO = new Vector(0, 0)
 
 // Correction things
-const ORIGIN = { x: width/2, y: height/2 }
-const sCorrect = a => ({ x: scale*a.x, y: scale*a.y })
-const aCorrect = a => ({ x: a.x + ORIGIN.x, y: a.y + ORIGIN.y })
-const correct = a => aCorrect(sCorrect(a))
+const ORIGIN = new Vector(width/2, height/2)
+const sCorrect = a => a.times(scale)
+const aCorrect = a => a.plus(ORIGIN)
+const rCorrect = a => a.round()
+const correct = a => rCorrect(aCorrect(sCorrect(a)))
 
 // -------------------------------- FOURIER --------------------------------
 
@@ -55,23 +81,20 @@ function getFourierPath(fourier) {
 
     // Create vectors and rotation matrices
     let elements = fourier.map(({ s, o }, n) => ({
-        vector: {
-            x: s*Math.cos(o),
-            y: s*Math.sin(o)
-        },
-        rotation: {
-            xx: Math.cos(n*dth),
-            xy: -Math.sin(n*dth),
-            yx: Math.sin(n*dth),
-            yy: Math.cos(n*dth)    
-        }
+        vector: Vector.scaleOffset(s, o),
+        rotation: new RotationMatrix(n, dth)
     }))
+
+    const combineElements = elements =>
+        elements.map(elem => elem.vector)
+            .reduce(
+                (vA, vB) => vA.plus(vB),
+                Vector.ZERO)
 
     // Initialize path
     console.group('Initial')
-    let r = elements.map(elem => elem.vector).reduce(vsum)
+    let r = combineElements(elements)
     r = correct(r)
-    r = vround(r)
     console.log(r)
     path.push(r)
     console.groupEnd()
@@ -81,16 +104,12 @@ function getFourierPath(fourier) {
         // Transform vectors
         elements = elements.map(({ vector, rotation }) => ({
             rotation,
-            vector: {
-                x: rotation.xx*vector.x + rotation.xy*vector.y,
-                y: rotation.yx*vector.x + rotation.yy*vector.y
-            }
+            vector: rotation.transform(vector)
         }))
 
         // Get point from vector
-        r = elements.map(elem => elem.vector).reduce(vsum)
+        r = combineElements(elements)
         r = correct(r)
-        r = vround(r)
         console.log(r)
         path.push(r)
     }
@@ -101,11 +120,7 @@ function getFourierPath(fourier) {
 
 function updateFourierState(fourierState) {
     return fourierState.map(({ scale, offset, rotation, vector }) => ({
-        scale, offset, rotation,
-        vector: {
-            x: rotation.xx*vector.x + rotation.xy*vector.y,
-            y: rotation.yx*vector.x + rotation.yy*vector.y
-        }
+        scale, offset, rotation, vector: rotation.transform(vector)
     }))
 }
 
@@ -132,9 +147,9 @@ function drawLines(fourierState) {
 
     // Draw lines along path
     let r
-    fourierState.forEach(({ vector, rotation }) => {
+    fourierState.forEach(({ vector }) => {
         r = sCorrect(vector)
-        s = vsum(s, r)
+        s = s.plus(r)
         fctx.lineTo(s.x, s.y)
     })
 
@@ -155,7 +170,7 @@ function drawCircles(fourierState) {
         fctx.beginPath()
         fctx.arc(s.x, s.y, element.scale*scale, 0, 2*Math.PI)
         fctx.stroke()
-        s = vsum(s, r)
+        s = s.plus(r)
     })
 }
 
@@ -182,16 +197,8 @@ let path = getFourierPath(fourier)
 let state = fourier.map(({ s, o }, n) => ({
     scale: s,
     offset: o,
-    vector: {
-        x: s*Math.cos(o),
-        y: s*Math.sin(o)
-    },
-    rotation: {
-        xx: Math.cos(n*dth),
-        xy: -Math.sin(n*dth),
-        yx: Math.sin(n*dth),
-        yy: Math.cos(n*dth)    
-    }
+    vector: Vector.scaleOffset(s, o),
+    rotation: new RotationMatrix(n, dth)
 }))
 
 // Draw frame on every animation frame

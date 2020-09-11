@@ -41,7 +41,7 @@ Upcoming
 
 - [x] Canvas (9 - 10 - 2020)
 - [ ] Draw Path
-    - [ ] Rotating vector
+    - [x] Rotating vector (9 - 10 - 2020)
     - [ ] Scaled rotating vector
     - [ ] Scaled rotating vectors stacked
 - [ ] Animate Vectors

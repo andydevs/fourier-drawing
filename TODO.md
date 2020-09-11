@@ -45,9 +45,10 @@ Upcoming
     - [x] Scaled rotating vector (9 - 10 - 2020)
     - [x] Scaled rotating vectors stacked (9 - 10 - 2020)
     - [x] Offset scaled rotating vector (9 - 10 - 2020)
-- [x] Animate Vectors
-- [x] Animate Spheres
+- [x] Animate Vectors (9 - 11 - 2020)
+- [x] Animate Spheres (9 - 11 - 2020)
 - [ ] Optimize drawing algorithm so that it works
+    - [x] Optimize path drawing (9 - 11 - 2020)
 
 Updates
 ------------------------------------------------------------------------------------

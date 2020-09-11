@@ -6,8 +6,16 @@
  */
 import './style/main.scss'
 
+// Get draw context
+const fout = document.getElementById('fourout')
+const width = fout.width
+const height = fout.height
+const fctx = fout.getContext('2d')
+const scale = 50
+const dth = 0.005
+
 // Build a random fourier series of n elements
-const n = 3
+const n = 5
 const fscale = 1.1
 const fourier = [{s:0,o:0}]
 for (let i = 0; i < n; i++) {
@@ -19,14 +27,6 @@ for (let i = 0; i < n; i++) {
 console.group('Fourier Series')
 console.log(fourier)
 console.groupEnd()
-
-// Get draw context
-const fout = document.getElementById('fourout')
-const width = fout.width
-const height = fout.height
-const fctx = fout.getContext('2d')
-const scale = 50
-const dth = 0.005
 
 // Correction things
 const ORIGIN = { x: width/2, y: height/2 }
@@ -48,53 +48,87 @@ const osrv = ({ s, o }, n) => th => ({
 })
 
 /**
- * Performs vector addition on rotating vectors,
- * effectively stacking the two circles together
+ * Performs vector addition on two vectors
  * 
  * @param {{x: float, y: float}} a first vector
  * @param {{x: float, y: float}} b second vector
  */
-const stack = (a, b) => th => ({
-    x: a(th).x + b(th).x,
-    y: a(th).y + b(th).y
+const vsum = (a, b) => ({
+    x: a.x + b.x,
+    y: a.y + b.y
 })
 
 /**
- * Approximately draw vector function onto canvas
+ * Rounds vector
  * 
- * @param {float -> { x: float, y: float }} func the function to draw
+ * @param {{x: float, y: float}} a vector to round
  */
-function drawFunction(func) {
-    console.group('drawFunction')
+const vround = a => ({
+    x: Math.round(a.x),
+    y: Math.round(a.y)
+})
 
-    // Initialize context and path
-    let r = func(0)
-    r = correct(r)
+function getFourierPath(fourier) {
+    console.group('getFourierPath')
+
+    // Create path
+    let path = []
+
+    // Create vectors and rotation matrices
+    let elements = fourier.map(({ s, o }, n) => ({
+        vector: {
+            x: s*Math.cos(o),
+            y: s*Math.sin(o)
+        },
+        rotation: {
+            xx: Math.cos(n*dth),
+            xy: -Math.sin(n*dth),
+            yx: Math.sin(n*dth),
+            yy: Math.cos(n*dth)    
+        }
+    }))
+
+    // Initialize path
     console.group('Initial')
+    let r = elements.map(elem => elem.vector).reduce(vsum)
+    r = correct(r)
+    r = vround(r)
     console.log(r)
+    path.push(r)
     console.groupEnd()
-    fctx.lineWidth = '1'
-    fctx.strokeStyle = '#333'
-    fctx.beginPath()
-    fctx.moveTo(r.x, r.y)
 
-    // Draw loop
     console.groupCollapsed('Path')
     for (let th = dth; th < 2*Math.PI; th += dth) {
-        // Current value
-        r = func(th)
-        r = correct(r)
-        console.log(r)
+        // Transform vectors
+        elements = elements.map(({ vector, rotation }) => ({
+            rotation,
+            vector: {
+                x: rotation.xx*vector.x + rotation.xy*vector.y,
+                y: rotation.yx*vector.x + rotation.yy*vector.y
+            }
+        }))
 
-        // Draw line to current value
-        fctx.lineTo(r.x, r.y)
+        // Get point from vector
+        r = elements.map(elem => elem.vector).reduce(vsum)
+        r = correct(r)
+        r = vround(r)
+        console.log(r)
+        path.push(r)
     }
     console.groupEnd()
-
-    // End
-    fctx.stroke()
-    fctx.save()
     console.groupEnd()
+    return path
+}
+
+function drawPath(path) {
+    fctx.lineWidth = '1'
+    fctx.strokeStyle = '#00aaff'
+    fctx.beginPath()
+    fctx.moveTo(path[0].x, path[0].y)
+    for (let i = 1; i < path.length; i++) {
+        fctx.lineTo(path[i].x, path[i].y)
+    }
+    fctx.stroke()
 }
 
 function drawLines(fourier, th=0) {
@@ -160,15 +194,17 @@ function drawCircles(fourier, th=0) {
     console.groupEnd()
 }
 
+let path = getFourierPath(fourier)
 let th = 0.0
-let func = fourier.map(osrv).reduce(stack)
 function drawFrame() {
     fctx.clearRect(0, 0, width, height)
-    drawFunction(func)
+    drawPath(path)
     drawLines(fourier, th)
     drawCircles(fourier, th)
     th += dth
+    if (th > 2*Math.PI) {
+        th -= 2*Math.PI
+    }
     requestAnimationFrame(drawFrame)
 }
-
-drawFrame()
+requestAnimationFrame(drawFrame)

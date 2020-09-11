@@ -5,14 +5,14 @@
  * Created: 9 - 10 - 2020
  */
 import './style/main.scss'
-import { FourierSeries } from './fourier/series';
+import { buildRandomFourier } from './fourier/builders/random';
 import { FourierOutputContext } from './fourier-output';
 
 // Draw Context
 let fctx = new FourierOutputContext('fourout')
 
 // Fourier initial
-let fourier = FourierSeries.random(6, 1.0)
+let fourier = buildRandomFourier(6, 1.0)
 let path = fourier.getPath()
 let state = fourier.getInitialState()
 

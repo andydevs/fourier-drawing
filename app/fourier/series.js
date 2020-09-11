@@ -7,23 +7,15 @@
 import { FourierState } from './state';
 
 export class FourierSeries {
-    static random(n, fscale) {
-        // Build a random fourier series of n elements
-        console.group('Fourier Series')
-        const fourier = [{ s: 0, o: 0 }]
-        for (let i = 0; i < n; i++) {
-            fourier.push({
-                s: fscale * Math.random() * n / (i + 1), // Scale
-                o: Math.random()*Math.PI*2 // Offset    
-            })
+    constructor(offset=false) {
+        this.components = []
+        if (!offset) {
+            this.components.push({ s: 0, o: 0 })
         }
-        console.log(fourier)
-        console.groupEnd()
-        return new FourierSeries(fourier)
     }
 
-    constructor(components) {
-        this.components = components
+    add(sov) {
+        this.components.push(sov)
     }
 
     getPath(dth=0.005) {

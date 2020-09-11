@@ -37,17 +37,20 @@ Backlog
 Upcoming
 -----------------------------------------------------------------------------------
 
-- [ ] Split Code into Files
-    - [x] Object orient vector code (9 - 11 - 2020)
-    - [x] Object orient fourier code (9 - 11 - 2020)
-    - [x] Split vector and fourier code into files (9 - 11 - 2020)
-    - [x] Split classes into separate files (9 - 11 - 2020)
-
 Updates
 ------------------------------------------------------------------------------------
 
 Changelog
 ------------------------------------------------------------------------------------
+
+#### v0.1.1: Split code
+
+- [x] Split Code into Files (9 - 11 - 2020)
+    - [x] Object orient vector code (9 - 11 - 2020)
+    - [x] Object orient fourier code (9 - 11 - 2020)
+    - [x] Split vector and fourier code into files (9 - 11 - 2020)
+    - [x] Split classes into separate files (9 - 11 - 2020)
+    - [x] Fourier output context object (9 - 11 - 2020)
 
 ### v0.1.0: Base Algorithm
 

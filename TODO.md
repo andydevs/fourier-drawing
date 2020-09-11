@@ -49,7 +49,7 @@ Upcoming
     - [x] Scaled rotating vector (9 - 10 - 2020)
     - [x] Scaled rotating vectors stacked (9 - 10 - 2020)
     - [x] Offset scaled rotating vector (9 - 10 - 2020)
-- [ ] Animate Vectors
+- [x] Animate Vectors
 - [ ] Animate Spheres
 
 Updates

@@ -7,14 +7,18 @@
 import './style/main.scss'
 
 // Build a random fourier series of n elements
-const n = 10
-const downscale = 0.5
-const fourier = [...Array(10)].map((_, i) => ({
-    s: downscale*Math.random()*(n / (i + 1)), // Scale
-    o: Math.random()*Math.PI*2 // Offset
-}))
-console.log('Fourier Series:')
+const n = 6
+const fscale = 1.1
+const fourier = []
+for (let i = 0; i < n; i++) {
+    fourier.push({
+        s: fscale*Math.random()*(n / (i + 1)), // Scale
+        o: Math.random()*Math.PI*2 // Offset    
+    })
+}
+console.group('Fourier Series')
 console.log(fourier)
+console.groupEnd()
 
 // Get draw context
 const fout = document.getElementById('fourout')
@@ -24,41 +28,11 @@ const fctx = fout.getContext('2d')
 const scale = 50
 const dth = 0.005
 
-/**
- * Approximately draw vector function onto canvas
- * 
- * @param {float -> { x: float, y: float }} func the function to draw
- */
-function drawFunction(func) {
-    // Correction and scaling function
-    let corrected = r => ({ x: r.x + width/2, y: r.y + height/2 })
-    let scaled = r => ({ x: scale * r.x, y: scale * r.y })
-
-    // Initial
-    let r = func(0)
-    r = scaled(r)
-    r = corrected(r)
-
-    // Initialize context
-    fctx.lineWidth = '1'
-    fctx.strokeStyle = '#ffffff'
-    fctx.beginPath()
-    fctx.moveTo(r.x, r.y)
-
-    // Draw loop
-    for (let th = dth; th < 2*Math.PI; th += dth) {
-        // Current value
-        r = func(th)
-        r = scaled(r)
-        r = corrected(r)
-
-        // Draw line to current value
-        fctx.lineTo(r.x, r.y)
-    }
-
-    // Draw the line
-    fctx.stroke()
-}
+// Correction things
+const ORIGIN = { x: width/2, y: height/2 }
+const sCorrect = a => ({ x: scale*a.x, y: scale*a.y })
+const aCorrect = a => ({ x: a.x + ORIGIN.x, y: a.y + ORIGIN.y })
+const correct = a => aCorrect(sCorrect(a))
 
 /**
  * Offset scaled rotating vector rotating at the 
@@ -85,5 +59,85 @@ const stack = (a, b) => th => ({
     y: a(th).y + b(th).y
 })
 
-// Draw function
-drawFunction(fourier.map(osrv).reduce(stack))
+/**
+ * Approximately draw vector function onto canvas
+ * 
+ * @param {float -> { x: float, y: float }} func the function to draw
+ */
+function drawFunction(func) {
+    console.group('drawFunction')
+
+    // Initialize context and path
+    let r = func(0)
+    r = correct(r)
+    console.group('Initial')
+    console.log(r)
+    console.groupEnd()
+    fctx.lineWidth = '1'
+    fctx.strokeStyle = '#555555'
+    fctx.beginPath()
+    fctx.moveTo(r.x, r.y)
+
+    // Draw loop
+    console.groupCollapsed('Path')
+    for (let th = dth; th < 2*Math.PI; th += dth) {
+        // Current value
+        r = func(th)
+        r = correct(r)
+        console.log(r)
+
+        // Draw line to current value
+        fctx.lineTo(r.x, r.y)
+    }
+    console.groupEnd()
+
+    // End
+    fctx.stroke()
+    fctx.save()
+    console.groupEnd()
+}
+
+function drawLines(fourier, th=0) {
+    console.group('drawLines')
+    
+    // Initialize context and path
+    let s = ORIGIN
+    fctx.lineWidth = '1'
+    fctx.strokeStyle = '#ffffff'
+    fctx.beginPath()
+    fctx.moveTo(s.x, s.y)
+    console.group('Initial Point')
+    console.log(s)
+    console.groupEnd()
+
+    // Draw lines along path
+    console.groupCollapsed('Path')
+    let r
+    for (let i = 0; i < fourier.length; i++) {
+        r = osrv(fourier[i], i)(th)
+        r = sCorrect(r)
+        s = {
+            x: s.x + r.x,
+            y: s.y + r.y
+        }
+        console.log(s)
+        fctx.lineTo(s.x, s.y)
+    }
+    console.groupEnd()
+
+    // Stroke
+    fctx.stroke()
+    console.groupEnd()
+}
+
+let th = 0.0
+let func = fourier.map(osrv).reduce(stack)
+function drawFrame() {
+    fctx.clearRect(0, 0, width, height)
+    drawFunction(func)
+    drawLines(fourier, th)
+    th += dth
+    requestAnimationFrame(drawFrame)
+}
+
+drawFrame()

@@ -14,12 +14,11 @@ const width = fout.width
 const height = fout.height
 const fctx = fout.getContext('2d')
 const scale = 50
-const dth = 0.005
 
 // -------------------------------- VECTOR ---------------------------------
 
 class RotationMatrix {
-    constructor(n, dth) {
+    constructor(n, dth=0.05) {
         let arc = n*dth
         let sarc = Math.sin(arc)
         let carc = Math.cos(arc)
@@ -73,55 +72,114 @@ const correct = a => rCorrect(aCorrect(sCorrect(a)))
 
 // -------------------------------- FOURIER --------------------------------
 
-function getFourierPath(fourier) {
-    console.group('getFourierPath')
+class FourierStateElement {
+    static initial(scale, offset, frequency, dth=0.005) {
+        return new FourierStateElement(
+            scale, offset, frequency,
+            Vector.scaleOffset(scale, offset),
+            new RotationMatrix(frequency, dth)
+        )
+    }
 
-    // Create path
-    let path = []
+    constructor(scale, offset, frequency, vector, rotation) {
+        this.scale = scale
+        this.offset = offset
+        this.frequency = frequency
+        this.vector = vector
+        this.rotation = rotation
+    }
 
-    // Create vectors and rotation matrices
-    let elements = fourier.map(({ s, o }, n) => ({
-        vector: Vector.scaleOffset(s, o),
-        rotation: new RotationMatrix(n, dth)
-    }))
+    update() {
+        return new FourierStateElement(
+            this.scale,
+            this.offset,
+            this.frequency,
+            this.rotation.transform(this.vector),
+            this.rotation
+        )
+    }
+}
 
-    const combineElements = elements =>
-        elements.map(elem => elem.vector)
-            .reduce(
-                (vA, vB) => vA.plus(vB),
-                Vector.ZERO)
+class FourierState {
+    static initial(fourier, dth=0.005) {
+        return new FourierState(
+            fourier.map(({ s, o }, n) => 
+                FourierStateElement.initial(s, o, n, dth))
+        )
+    }
 
-    // Initialize path
-    console.group('Initial')
-    let r = combineElements(elements)
-    r = correct(r)
-    console.log(r)
-    path.push(r)
-    console.groupEnd()
+    constructor(elements) {
+        this.elements = elements
+    }
 
-    console.groupCollapsed('Path')
-    for (let th = dth; th < 2*Math.PI; th += dth) {
-        // Transform vectors
-        elements = elements.map(({ vector, rotation }) => ({
-            rotation,
-            vector: rotation.transform(vector)
-        }))
+    update() {
+        return new FourierState(
+            this.elements.map(elem => elem.update()))
+    }
 
-        // Get point from vector
-        r = combineElements(elements)
+    output() {
+        return this.elements
+            .map(elem => elem.vector)
+            .reduce((vA, vB) => vA.plus(vB), Vector.ZERO)
+    }
+}
+
+class FourierSeries {
+    static random(n, fscale) {
+        // Build a random fourier series of n elements
+        console.group('Fourier Series')
+        const fourier = [{ s: 0, o: 0 }]
+        for (let i = 0; i < n; i++) {
+            fourier.push({
+                s: fscale * Math.random() * n / (i + 1), // Scale
+                o: Math.random()*Math.PI*2 // Offset    
+            })
+        }
+        console.log(fourier)
+        console.groupEnd()
+        return new FourierSeries(fourier)
+    }
+
+    constructor(components) {
+        this.components = components
+    }
+
+    getPath(dth=0.005) {
+        console.group('getFourierPath')
+
+        // Create path
+        let path = []
+
+        // Create vectors and rotation matrices
+        let state = FourierState.initial(this.components)
+
+        // Initialize path
+        console.group('Initial')
+        let r = state.output()
         r = correct(r)
         console.log(r)
         path.push(r)
-    }
-    console.groupEnd()
-    console.groupEnd()
-    return path
-}
+        console.groupEnd()
 
-function updateFourierState(fourierState) {
-    return fourierState.map(({ scale, offset, rotation, vector }) => ({
-        scale, offset, rotation, vector: rotation.transform(vector)
-    }))
+        console.groupCollapsed('Path')
+        for (let th = dth; th < 2*Math.PI; th += dth) {
+            // Transform vectors
+            state = state.update()
+
+            // Get point from vector
+            r = state.output()
+            r = correct(r)
+            console.log(r)
+            path.push(r)
+        }
+        console.groupEnd()
+        console.groupEnd()
+        return path
+    }
+
+    getInitialState(dth=0.005) {
+        return FourierState.initial(this.components, dth)
+    }
 }
 
 // ------------------------------ DRAWING ------------------------------
@@ -140,16 +198,14 @@ function drawPath(path) {
 function drawLines(fourierState) {
     // Initialize context and path
     let s = ORIGIN
-    fctx.lineWidth = '3'
-    fctx.strokeStyle = '#0af'
+    fctx.lineWidth = '1'
+    fctx.strokeStyle = '#fa0'
     fctx.beginPath()
     fctx.moveTo(s.x, s.y)
 
     // Draw lines along path
-    let r
-    fourierState.forEach(({ vector }) => {
-        r = sCorrect(vector)
-        s = s.plus(r)
+    fourierState.elements.forEach(({ vector }) => {
+        s = s.plus(sCorrect(vector))
         fctx.lineTo(s.x, s.y)
     })
 
@@ -160,46 +216,24 @@ function drawLines(fourierState) {
 function drawCircles(fourierState) {
     // Initialize context and path
     let s = ORIGIN
-    fctx.lineWidth = '1'
+    fctx.lineWidth = '0.5'
     fctx.strokeStyle = '#555'
 
     // Draw circles along path
-    let r
-    fourierState.forEach(element => {
-        r = sCorrect(element.vector)
+    fourierState.elements.forEach(element => {
         fctx.beginPath()
         fctx.arc(s.x, s.y, element.scale*scale, 0, 2*Math.PI)
         fctx.stroke()
-        s = s.plus(r)
+        s = s.plus(sCorrect(element.vector))
     })
 }
 
 // ------------------------------- MAIN -------------------------------
 
-// Build a random fourier series of n elements
-console.group('Fourier Series')
-const n = 6
-const fscale = 1.0
-const fourier = [{ s: 0, o: 0 }]
-for (let i = 0; i < n; i++) {
-    fourier.push({
-        s: fscale * Math.random() * n / (i + 1), // Scale
-        o: Math.random()*Math.PI*2 // Offset    
-    })
-}
-console.log(fourier)
-console.groupEnd()
-
-// Get fourier path
-let path = getFourierPath(fourier)
-
-// Create fourier state
-let state = fourier.map(({ s, o }, n) => ({
-    scale: s,
-    offset: o,
-    vector: Vector.scaleOffset(s, o),
-    rotation: new RotationMatrix(n, dth)
-}))
+// Fourier initial
+let fourier = FourierSeries.random(6, 1.0)
+let path = fourier.getPath()
+let state = fourier.getInitialState()
 
 // Draw frame on every animation frame
 function drawFrame() {
@@ -207,7 +241,7 @@ function drawFrame() {
     drawPath(path)
     drawLines(state)
     drawCircles(state)
-    state = updateFourierState(state)
+    state = state.update()
     requestAnimationFrame(drawFrame)
 }
 requestAnimationFrame(drawFrame)

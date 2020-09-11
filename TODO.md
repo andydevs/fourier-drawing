@@ -47,8 +47,9 @@ Upcoming
     - [x] Offset scaled rotating vector (9 - 10 - 2020)
 - [x] Animate Vectors (9 - 11 - 2020)
 - [x] Animate Spheres (9 - 11 - 2020)
-- [ ] Optimize drawing algorithm so that it works
+- [x] Optimize drawing algorithm so that it works (9 - 11 - 2020)
     - [x] Optimize path drawing (9 - 11 - 2020)
+    - [x] Optimize sphere and line drawing (9 - 11 - 2020)
 
 Updates
 ------------------------------------------------------------------------------------

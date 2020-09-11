@@ -7,9 +7,9 @@
 import './style/main.scss'
 
 // Build a random fourier series of n elements
-const n = 6
+const n = 3
 const fscale = 1.1
-const fourier = []
+const fourier = [{s:0,o:0}]
 for (let i = 0; i < n; i++) {
     fourier.push({
         s: fscale*Math.random()*(n / (i + 1)), // Scale
@@ -74,7 +74,7 @@ function drawFunction(func) {
     console.log(r)
     console.groupEnd()
     fctx.lineWidth = '1'
-    fctx.strokeStyle = '#555555'
+    fctx.strokeStyle = '#333'
     fctx.beginPath()
     fctx.moveTo(r.x, r.y)
 
@@ -130,12 +130,43 @@ function drawLines(fourier, th=0) {
     console.groupEnd()
 }
 
+function drawCircles(fourier, th=0) {
+    console.group('drawCircles')
+
+    // Initialize context and path
+    let s = ORIGIN
+    fctx.lineWidth = '1'
+    fctx.strokeStyle = '#999999'
+    console.group('Initial Point')
+    console.log(s)
+    console.groupEnd()
+
+    // Draw circles
+    console.groupCollapsed('Circles')
+    let r
+    for (let i = 0; i < fourier.length; i++) {
+        r = osrv(fourier[i], i)(th)
+        r = sCorrect(r)
+        fctx.beginPath()
+        fctx.arc(s.x, s.y, fourier[i].s*scale, 0, 2*Math.PI)
+        fctx.stroke()
+        s = {
+            x: s.x + r.x,
+            y: s.y + r.y
+        }
+        console.log(s)
+    }
+    console.groupEnd()
+    console.groupEnd()
+}
+
 let th = 0.0
 let func = fourier.map(osrv).reduce(stack)
 function drawFrame() {
     fctx.clearRect(0, 0, width, height)
     drawFunction(func)
     drawLines(fourier, th)
+    drawCircles(fourier, th)
     th += dth
     requestAnimationFrame(drawFrame)
 }

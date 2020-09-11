@@ -5,10 +5,6 @@ Project Start Date: 9 - 10 - 2020
 Backlog
 -----------------------------------------------------------------------------------
 
-### Optimize!
-
-- [ ] Optimize drawing algorithm
-
 ### Customize
 
 - [ ] Create Form
@@ -50,7 +46,8 @@ Upcoming
     - [x] Scaled rotating vectors stacked (9 - 10 - 2020)
     - [x] Offset scaled rotating vector (9 - 10 - 2020)
 - [x] Animate Vectors
-- [ ] Animate Spheres
+- [x] Animate Spheres
+- [ ] Optimize drawing algorithm so that it works
 
 Updates
 ------------------------------------------------------------------------------------

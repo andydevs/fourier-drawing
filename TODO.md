@@ -40,6 +40,7 @@ Upcoming
 - [ ] Split Code into Files
     - [x] Object orient vector code (9 - 11 - 2020)
     - [x] Object orient fourier code (9 - 11 - 2020)
+    - [x] Split vector and fourier code into files (9 - 11 - 2020)
 
 Updates
 ------------------------------------------------------------------------------------

@@ -8,7 +8,7 @@ import { Vector } from './vector'
 
 export class RotationMatrix {
     constructor(n, dth=0.05) {
-        let arc = n*dth
+        let arc = 2*Math.PI*n*dth
         let sarc = Math.sin(arc)
         let carc = Math.cos(arc)
         this.xx = carc

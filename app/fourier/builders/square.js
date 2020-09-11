@@ -6,14 +6,14 @@
  */
 import { FourierSeries } from '../series';
 
-export function buildRandomFourier(n, fscale) {
+export function buildSquareFourier(n, fscale) {
     // Build a random fourier series of n elements
-    console.group('Random Fourier Series')
+    console.group('Square Fourier Series')
     const fourier = new FourierSeries()
-    for (let i = 0; i < n; i++) {
+    for (let k = 1; k < (2*n + 1); k++) {
         fourier.add({
-            s: fscale * Math.random() * n / (i + 1), // Scale
-            o: Math.random()*Math.PI*2 // Offset    
+            s: (k % 2) * fscale / k, // Scale
+            o: 0 // Offset
         })
     }
     console.log(fourier)

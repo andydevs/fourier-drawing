@@ -5,8 +5,8 @@
  * Created: 9 - 10 - 2020
  */
 import './style/main.scss'
-import { Vector } from './vector';
-import { FourierSeries } from './fourier';
+import { Vector } from './vector/vector';
+import { FourierSeries } from './fourier/series';
 
 // Get draw context
 const fout = document.getElementById('fourout')

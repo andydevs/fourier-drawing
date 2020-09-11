@@ -5,11 +5,39 @@
  * Created: 9 - 10 - 2020
  */
 import './style/main.scss'
-import { animationFrameScheduler, of } from 'rxjs';
-import { observeOn, repeat } from 'rxjs/operators';
+import { animationFrameScheduler, fromEvent, of } from 'rxjs';
+import { map, observeOn, repeat } from 'rxjs/operators';
 import { buildRandomFourier } from './fourier/builders/random';
 import { buildSquareFourier } from './fourier/builders/square';
 import { FourierOutputContext } from './fourier-output';
+
+// Number of elements and fscale
+const n = 5
+const fscale = 1.0
+
+// -------------------------- FORM CONTROL -------------------------
+
+// Get form
+const form = document.getElementById('custom')
+
+// Add options to select field
+const typeSelect = document.getElementById('type-select')
+const squareOpt = document.createElement('option')
+squareOpt.value = 'square'
+squareOpt.text = 'square'
+typeSelect.add(squareOpt)
+const randomOpt = document.createElement('option')
+randomOpt.value = 'random'
+randomOpt.text = 'random'
+typeSelect.add(randomOpt)
+
+// Type select which emits on change
+const typeOnChange$ = fromEvent(typeSelect, 'change')
+    .pipe(
+        map(event => event.target.value)
+    )
+
+// --------------------------- ANIMATION ---------------------------
 
 // Create an animation looper
 const animationLoop$ = of(0).pipe(
@@ -32,16 +60,33 @@ function createAnimation(fourier, fctx) {
     }
 }
 
-// Initial fourier animation
-let fourier = buildSquareFourier(4, 1.0)
-let fanim = createAnimation(fourier, fctx)
+// ----------------------------- MAIN -----------------------------
 
-// Frame animation
+// Initial fourier animation
+let builder = buildSquareFourier
+let fourier = builder(n, fscale)
+let fanim = createAnimation(fourier, fctx)
 let animation = animationLoop$.subscribe(fanim)
 
-setTimeout(() => {
+// Change animation on type change
+typeOnChange$.subscribe(typ => {
+
+    // Get builder
+    let builder
+    switch (typ) {
+        case 'square':
+            builder = buildSquareFourier
+            break;
+        case 'random':
+        default:
+            builder = buildRandomFourier
+            break;
+    }
+
+    // Set new animation
     animation.unsubscribe()
-    fourier = buildRandomFourier(4, 1.0)
+    fourier = builder(n, fscale)
     fanim = createAnimation(fourier, fctx)
     animation = animationLoop$.subscribe(fanim)
-}, 10000)
+
+})

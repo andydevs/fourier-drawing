@@ -7,12 +7,9 @@ Backlog
 
 ### Customize
 
-- [ ] Create Form
-- [ ] Number of Elements
-- [ ] Randomize
 - [ ] Sawtooth Wave
-- [ ] Square Wave
 - [ ] Triangle Wave
+- [ ] Number of Elements
 
 ### Shape Select
 
@@ -42,6 +39,13 @@ Updates
 
 Changelog
 ------------------------------------------------------------------------------------
+
+### v0.2.0: Interactive!
+
+- [x] Created form system! (9 - 11 - 2020)
+- [x] Added form control (Select fourier type) (9 - 11 - 2020)
+    - [x] Square (9 - 11 - 2020)
+    - [x] Random (9 - 11 - 2020)
 
 #### v0.1.1: Split code
 

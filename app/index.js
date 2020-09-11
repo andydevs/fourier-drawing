@@ -18,11 +18,6 @@ const dth = 0.01
  * Approximately draw vector function onto canvas
  * 
  * @param {float -> { x: float, y: float }} func the function to draw
- * @param {CanvasRenderingContext2D} ctx canvas context to draw to
- * @param {int} width width of canvas element
- * @param {int} height height of canvas element
- * @param {float} scale output scaling
- * @param {float} dth increment of theta in each step (default 0.01)
  */
 function drawFunction(func) {
     // Correction and scaling function
@@ -56,12 +51,16 @@ function drawFunction(func) {
 }
 
 /**
- * Draws a single circle
+ * Scaled rotating vector rotating at the given
+ * frequency and scaled by the given factor
  * 
- * @param {float} th function input parameter
+ * @param {float} s Scale factor
+ * @param {int} n integer frequency of unit
  */
-function circle(th) {
-    return { x: Math.cos(th), y: Math.sin(th) } 
-}
+const srv = (s, n) => th => ({
+    x: s*Math.cos(2*Math.PI*n*th),
+    y: s*Math.sin(2*Math.PI*n*th)
+})
 
-drawFunction(circle)
+// Draw function
+drawFunction(srv(3.5, 1))

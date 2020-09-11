@@ -7,12 +7,14 @@
 import './style/main.scss'
 
 // Build a random fourier series of n elements
-const n = 6
+const n = 10
 const downscale = 0.5
-const fourier = [0]
-for (let i = 1; i < n; i++) {
-    fourier.push(downscale*Math.random()*(n / i))
-}
+const fourier = [...Array(10)].map((_, i) => ({
+    s: downscale*Math.random()*(n / (i + 1)), // Scale
+    o: Math.random()*Math.PI*2 // Offset
+}))
+console.log('Fourier Series:')
+console.log(fourier)
 
 // Get draw context
 const fout = document.getElementById('fourout')
@@ -20,7 +22,7 @@ const width = fout.width
 const height = fout.height
 const fctx = fout.getContext('2d')
 const scale = 50
-const dth = 0.01
+const dth = 0.005
 
 /**
  * Approximately draw vector function onto canvas
@@ -59,15 +61,16 @@ function drawFunction(func) {
 }
 
 /**
- * Scaled rotating vector rotating at the given
- * frequency and scaled by the given factor
+ * Offset scaled rotating vector rotating at the 
+ * given frequency, scaled by the given factor
+ * and offset by given offset value
  * 
- * @param {float} s Scale factor
- * @param {int} n integer frequency of unit
+ * @param {{ s: float, o: float}} so scale and offset
+ * @param {int} n integer frequency of rotation
  */
-const srv = (s, n) => th => ({
-    x: s*Math.cos(2*Math.PI*n*th),
-    y: s*Math.sin(2*Math.PI*n*th)
+const osrv = ({ s, o }, n) => th => ({
+    x: s*Math.cos(2*Math.PI*n*th + o),
+    y: s*Math.sin(2*Math.PI*n*th + o)
 })
 
 /**
@@ -83,4 +86,4 @@ const stack = (a, b) => th => ({
 })
 
 // Draw function
-drawFunction(fourier.map(srv).reduce(stack))
+drawFunction(fourier.map(osrv).reduce(stack))

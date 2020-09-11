@@ -5,6 +5,10 @@ Project Start Date: 9 - 10 - 2020
 Backlog
 -----------------------------------------------------------------------------------
 
+### Optimize!
+
+- [ ] Optimize drawing algorithm
+
 ### Customize
 
 - [ ] Create Form
@@ -40,11 +44,11 @@ Upcoming
 ### Base Algorithm
 
 - [x] Canvas (9 - 10 - 2020)
-- [ ] Draw Path
+- [x] Draw Path (9 - 10 - 2020)
     - [x] Rotating vector (9 - 10 - 2020)
     - [x] Scaled rotating vector (9 - 10 - 2020)
     - [x] Scaled rotating vectors stacked (9 - 10 - 2020)
-    - [ ] Offset scaled rotating vector
+    - [x] Offset scaled rotating vector (9 - 10 - 2020)
 - [ ] Animate Vectors
 - [ ] Animate Spheres
 

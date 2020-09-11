@@ -6,6 +6,14 @@
  */
 import './style/main.scss'
 
+// Build a random fourier series of n elements
+const n = 6
+const downscale = 0.5
+const fourier = [0]
+for (let i = 1; i < n; i++) {
+    fourier.push(downscale*Math.random()*(n / i))
+}
+
 // Get draw context
 const fout = document.getElementById('fourout')
 const width = fout.width
@@ -62,5 +70,17 @@ const srv = (s, n) => th => ({
     y: s*Math.sin(2*Math.PI*n*th)
 })
 
+/**
+ * Performs vector addition on rotating vectors,
+ * effectively stacking the two circles together
+ * 
+ * @param {{x: float, y: float}} a first vector
+ * @param {{x: float, y: float}} b second vector
+ */
+const stack = (a, b) => th => ({
+    x: a(th).x + b(th).x,
+    y: a(th).y + b(th).y
+})
+
 // Draw function
-drawFunction(srv(3.5, 1))
+drawFunction(fourier.map(srv).reduce(stack))

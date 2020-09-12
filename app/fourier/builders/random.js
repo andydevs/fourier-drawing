@@ -10,9 +10,9 @@ export function buildRandomFourier(n, fscale) {
     // Build a random fourier series of n elements
     console.group('Random Fourier Series')
     const fourier = new FourierSeries()
-    for (let i = 0; i < n; i++) {
+    for (let i = 1; i < n; i++) {
         fourier.add({
-            s: fscale * Math.random() * n / (i + 1), // Scale
+            s: fscale * Math.random() / i, // Scale
             o: Math.random()*Math.PI*2 // Offset    
         })
     }

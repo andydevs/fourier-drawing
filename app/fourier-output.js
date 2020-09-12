@@ -86,10 +86,10 @@ export class FourierOutputContext {
         })
     }
 
-    renderAnimation(fourier) {
+    renderAnimation(fourier, dth=0.001) {
         this.current.unsubscribe()
-        const path = fourier.getPath()
-        let state = fourier.getInitialState()
+        const path = fourier.getPath(dth)
+        let state = fourier.getInitialState(dth)
         this.current = animationLoop$.subscribe(() => {
             this.clear()
             this.drawPath(path)

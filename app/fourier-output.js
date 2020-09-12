@@ -5,6 +5,8 @@
  * Created: 9 - 10 - 2020
  */
 import { Vector } from './vector/vector'
+import { animationLoop$ } from './observables'
+import { Subscription } from 'rxjs';
 
 export class FourierOutputContext {
     constructor(id, scale=50) {
@@ -13,6 +15,7 @@ export class FourierOutputContext {
         this.width = this.canvas.width
         this.height = this.canvas.height
         this.scale = scale
+        this.current = Subscription.EMPTY
     }
 
     getOrigin() {
@@ -81,5 +84,18 @@ export class FourierOutputContext {
             this.ctx.stroke()
             s = s.plus(this.sCorrect(element.vector))
         })
-    }    
+    }
+
+    renderAnimation(fourier) {
+        this.current.unsubscribe()
+        const path = fourier.getPath()
+        let state = fourier.getInitialState()
+        this.current = animationLoop$.subscribe(() => {
+            this.clear()
+            this.drawPath(path)
+            this.drawLines(state)
+            this.drawCircles(state)
+            state = state.update()
+        })
+    }
 }

@@ -5,20 +5,13 @@
  * Created: 9 - 10 - 2020
  */
 import './style/main.scss'
-import { animationFrameScheduler, fromEvent, of } from 'rxjs';
-import { map, observeOn, repeat } from 'rxjs/operators';
+import { fromEvent } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { buildRandomFourier } from './fourier/builders/random';
 import { buildSquareFourier } from './fourier/builders/square';
 import { FourierOutputContext } from './fourier-output';
 
-// Number of elements and fscale
-const n = 5
-const fscale = 1.0
-
 // -------------------------- FORM CONTROL -------------------------
-
-// Get form
-const form = document.getElementById('custom')
 
 // Add options to select field
 const typeSelect = document.getElementById('type-select')
@@ -37,56 +30,32 @@ const typeOnChange$ = fromEvent(typeSelect, 'change')
         map(event => event.target.value)
     )
 
-// --------------------------- ANIMATION ---------------------------
-
-// Create an animation looper
-const animationLoop$ = of(0).pipe(
-    observeOn(animationFrameScheduler),
-    repeat()
-)
-
-// Draw Context
-let fctx = new FourierOutputContext('fourout')
-
-function createAnimation(fourier, fctx) {
-    const path = fourier.getPath()
-    let state = fourier.getInitialState()
-    return () => {
-        fctx.clear()
-        fctx.drawPath(path)
-        fctx.drawLines(state)
-        fctx.drawCircles(state)
-        state = state.update()    
-    }
-}
-
 // ----------------------------- MAIN -----------------------------
 
-// Initial fourier animation
-let builder = buildSquareFourier
-let fourier = builder(n, fscale)
-let fanim = createAnimation(fourier, fctx)
-let animation = animationLoop$.subscribe(fanim)
+// Parameters
+const n = 5
+const fscale = 1.0
+
+// Draw Context and initial animation
+let fctx = new FourierOutputContext('fourout')
+let fourier = buildSquareFourier(n, fscale)
+fctx.renderAnimation(fourier)
 
 // Change animation on type change
 typeOnChange$.subscribe(typ => {
 
-    // Get builder
-    let builder
+    // Get Updat fourier
     switch (typ) {
         case 'square':
-            builder = buildSquareFourier
+            fourier = buildSquareFourier(n, fscale)
             break;
         case 'random':
         default:
-            builder = buildRandomFourier
+            fourier = buildRandomFourier(n, fscale)
             break;
     }
 
-    // Set new animation
-    animation.unsubscribe()
-    fourier = builder(n, fscale)
-    fanim = createAnimation(fourier, fctx)
-    animation = animationLoop$.subscribe(fanim)
+    // Animated
+    fctx.renderAnimation(fourier)
 
 })

@@ -13,22 +13,10 @@ import { FourierOutputContext } from './fourier-output';
 
 // -------------------------- FORM CONTROL -------------------------
 
-// Add options to select field
-const typeSelect = document.getElementById('type-select')
-const squareOpt = document.createElement('option')
-squareOpt.value = 'square'
-squareOpt.text = 'square'
-typeSelect.add(squareOpt)
-const randomOpt = document.createElement('option')
-randomOpt.value = 'random'
-randomOpt.text = 'random'
-typeSelect.add(randomOpt)
-
 // Type select which emits on change
+const typeSelect = document.getElementById('type-select')
 const typeOnChange$ = fromEvent(typeSelect, 'change')
-    .pipe(
-        map(event => event.target.value)
-    )
+    .pipe(map(event => event.target.value))
 
 // ----------------------------- MAIN -----------------------------
 
@@ -44,14 +32,15 @@ fctx.renderAnimation(fourier)
 // Change animation on type change
 typeOnChange$.subscribe(typ => {
 
-    // Get Updat fourier
+    // Get Update fourier
     switch (typ) {
         case 'square':
             fourier = buildSquareFourier(n, fscale)
             break;
         case 'random':
-        default:
             fourier = buildRandomFourier(n, fscale)
+            break;
+        default:
             break;
     }
 

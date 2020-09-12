@@ -21,6 +21,10 @@ Backlog
 - [ ] Read SVG and analyze path
 - [ ] Create shapes as single bezier curve
 
+### SVG Analysis
+
+- [ ] Upload your own SVG to be recreated!
+
 ### Documentation
 
 - [ ] Describe Fourier Transform

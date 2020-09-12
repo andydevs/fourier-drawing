@@ -18,22 +18,20 @@ const typeSelect = document.getElementById('type-select')
 const typeOnChange$ = fromEvent(typeSelect, 'change')
     .pipe(map(event => event.target.value))
 
+// Button which triggers regeneration
+const regenButton = document.getElementById('regenerate')
+const regenClick$ = fromEvent(regenButton, 'click')
+
 // ----------------------------- MAIN -----------------------------
 
 // Parameters
 const n = 5
 const fscale = 1.0
+let lastTyp = 'square'
 
-// Draw Context and initial animation
-let fctx = new FourierOutputContext('fourout')
-let fourier = buildSquareFourier(n, fscale)
-fctx.renderAnimation(fourier)
-
-// Change animation on type change
-typeOnChange$.subscribe(typ => {
-
+function update() {
     // Get Update fourier
-    switch (typ) {
+    switch (lastTyp) {
         case 'square':
             fourier = buildSquareFourier(n, fscale)
             break;
@@ -46,5 +44,20 @@ typeOnChange$.subscribe(typ => {
 
     // Animated
     fctx.renderAnimation(fourier)
+}
 
+// Draw Context and initial animation
+let fctx = new FourierOutputContext('fourout')
+let fourier = buildSquareFourier(n, fscale)
+fctx.renderAnimation(fourier)
+
+// Change animation on type change
+typeOnChange$.subscribe(typ => {
+    lastTyp = typ
+    update()
+})
+
+// Render on button trigger
+regenClick$.subscribe(() => {
+    update()
 })

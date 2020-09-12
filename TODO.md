@@ -40,6 +40,10 @@ Updates
 Changelog
 ------------------------------------------------------------------------------------
 
+#### v0.2.1: Regeneration Button
+
+- [x] Regeneration Button! (9 - 11 - 2020)
+
 ### v0.2.0: Interactive!
 
 - [x] Created form system! (9 - 11 - 2020)

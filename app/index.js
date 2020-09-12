@@ -25,7 +25,7 @@ const regenClick$ = fromEvent(regenButton, 'click')
 // ----------------------------- MAIN -----------------------------
 
 // Parameters
-const n = 5
+const n = 10
 const fscale = 1.0
 let lastTyp = 'square'
 

@@ -11,6 +11,7 @@ Backlog
 - [x] Triangle Wave (9 - 12 - 2020)
 - [x] Number of Elements (9 - 12 - 2020)
 - [x] Zoom Scale (9 - 12 - 2020)
+- [x] Create one control change observable in separate file (9 - 13 - 2020)
 
 ### Shape Select
 

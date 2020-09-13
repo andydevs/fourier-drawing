@@ -80,7 +80,7 @@ export class FourierOutputContext {
         let s = this.getOrigin()
         fourierState.elements.forEach(element => {
             this.ctx.beginPath()
-            this.ctx.arc(s.x, s.y, element.scale*this.scale, 0, 2*Math.PI)
+            this.ctx.arc(s.x, s.y, Math.abs(element.scale)*this.scale, 0, 2*Math.PI)
             this.ctx.stroke()
             s = s.plus(this.sCorrect(element.vector))
         })

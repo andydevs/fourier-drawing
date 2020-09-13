@@ -7,8 +7,8 @@ Backlog
 
 ### Customize
 
-- [ ] Sawtooth Wave
-- [ ] Triangle Wave
+- [x] Sawtooth Wave
+- [x] Triangle Wave
 - [ ] Number of Elements
 
 ### Shape Select

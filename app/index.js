@@ -29,7 +29,7 @@ let fctx = new FourierOutputContext('fourout')
 
 // Initialize
 let n = 50
-let fscale = 2
+let fscale = 1
 let lastTyp = 'wave-square'
 update(lastTyp, n, fscale)
 

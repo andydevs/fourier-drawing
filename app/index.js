@@ -18,6 +18,16 @@ const typeSelect = document.getElementById('type-select')
 const typeOnChange$ = fromEvent(typeSelect, 'change')
     .pipe(map(event => event.target.value))
 
+// N select which emits on change
+const nSelect = document.getElementById('n-select')
+const nOnChange$ = fromEvent(nSelect, 'change')
+    .pipe(map(event => event.target.value))
+
+// FScale select which emits on change
+const fscaleSelect = document.getElementById('fscale-select')
+const fscaleOnChange$ = fromEvent(fscaleSelect, 'change')
+    .pipe(map(event => event.target.value))
+
 // Button which triggers regeneration
 const regenButton = document.getElementById('regenerate')
 const regenClick$ = fromEvent(regenButton, 'click')
@@ -28,24 +38,35 @@ const regenClick$ = fromEvent(regenButton, 'click')
 let fctx = new FourierOutputContext('fourout')
 
 // Initialize
-let n = 50
-let fscale = 1
+let lastN = 50
+let lastFscale = 1
 let lastTyp = 'wave-square'
-update(lastTyp, n, fscale)
+update(lastTyp, lastN, lastFscale)
 
 function update() {
     let builder = builders[lastTyp] || random
-    let fourier = FourierSeries.buildFourier(builder, n, fscale)
+    let fourier = FourierSeries.buildFourier(builder, lastN, lastFscale)
     fctx.renderAnimation(fourier)
 }
 
-// Change animation on type change
+fscaleOnChange$.subscribe(fscale => {
+    lastFscale = fscale
+    update()
+})
+
+// Rerender on n change
+nOnChange$.subscribe(n => {
+    lastN = n
+    update()
+})
+
+// Rerender on type change
 typeOnChange$.subscribe(typ => {
     lastTyp = typ
     update()
 })
 
-// Render on button trigger
+// Rerender on button trigger
 regenClick$.subscribe(() => {
     update()
 })

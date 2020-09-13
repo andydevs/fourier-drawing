@@ -7,9 +7,10 @@ Backlog
 
 ### Customize
 
-- [x] Sawtooth Wave
-- [x] Triangle Wave
-- [ ] Number of Elements
+- [x] Sawtooth Wave (9 - 12 - 2020)
+- [x] Triangle Wave (9 - 12 - 2020)
+- [x] Number of Elements (9 - 12 - 2020)
+- [x] Zoom Scale (9 - 12 - 2020)
 
 ### Shape Select
 

@@ -5,18 +5,18 @@
  * Created: 9 - 10 - 2020
  */
 
-const squareWave = (k, fscale) => ({
-    s: (k % 2) * fscale / k, // Scale
+const squareWave = (k, zscale) => ({
+    s: (k % 2) * zscale / k, // Scale
     o: 0 // Offset
 })
 
-const sawtoothWave = (k, fscale) => ({
-    s: fscale / k, // Scale
+const sawtoothWave = (k, zscale) => ({
+    s: zscale / k, // Scale
     o: 0 // Offset
 })
 
-const triangleWave = (k, fscale) => {
-    let scale = fscale / (k * k)
+const triangleWave = (k, zscale) => {
+    let scale = zscale / (k * k)
     let direction
     if (k % 4 === 1) direction = scale
     else if (k % 4 === 3) direction = -scale
@@ -24,8 +24,8 @@ const triangleWave = (k, fscale) => {
     return { s: direction, o: 0 }
 }
 
-export const random = (k, fscale) => ({
-    s: fscale / k * Math.random(), // Scale
+export const random = (k, zscale) => ({
+    s: zscale / k * Math.random(), // Scale
     o: 2 * Math.PI * Math.random() // Offset
 })
 

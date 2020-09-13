@@ -23,9 +23,9 @@ const nSelect = document.getElementById('n-select')
 const nOnChange$ = fromEvent(nSelect, 'change')
     .pipe(map(event => event.target.value))
 
-// FScale select which emits on change
-const fscaleSelect = document.getElementById('fscale-select')
-const fscaleOnChange$ = fromEvent(fscaleSelect, 'change')
+// zscale select which emits on change
+const zscaleSelect = document.getElementById('zscale-select')
+const zscaleOnChange$ = fromEvent(zscaleSelect, 'change')
     .pipe(map(event => event.target.value))
 
 // Button which triggers regeneration
@@ -39,18 +39,18 @@ let fctx = new FourierOutputContext('fourout')
 
 // Initialize
 let lastN = 50
-let lastFscale = 1
+let lastZscale = 1
 let lastTyp = 'wave-square'
-update(lastTyp, lastN, lastFscale)
+update(lastTyp, lastN, lastZscale)
 
 function update() {
     let builder = builders[lastTyp] || random
-    let fourier = FourierSeries.buildFourier(builder, lastN, lastFscale)
+    let fourier = FourierSeries.buildFourier(builder, lastN, lastZscale)
     fctx.renderAnimation(fourier)
 }
 
-fscaleOnChange$.subscribe(fscale => {
-    lastFscale = fscale
+zscaleOnChange$.subscribe(zscale => {
+    lastZscale = zscale
     update()
 })
 

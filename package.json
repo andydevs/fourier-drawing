@@ -1,6 +1,6 @@
 {
   "name": "fourier-drawing",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A visual that demos drawing paths using a fourier series.",
   "author": "Anshul Kharbanda",
   "keywords": [

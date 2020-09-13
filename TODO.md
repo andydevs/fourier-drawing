@@ -38,9 +38,10 @@ Upcoming
     - [ ] How to use the form
 - [ ] Credits
 
-
 Updates
 ------------------------------------------------------------------------------------
+
+- TWEAK: Moved animationLoop$ observable to fourier output context file
 
 Changelog
 ------------------------------------------------------------------------------------

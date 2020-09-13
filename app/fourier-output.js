@@ -5,8 +5,14 @@
  * Created: 9 - 10 - 2020
  */
 import { Vector } from './vector/vector'
-import { animationLoop$ } from './observables'
-import { Subscription } from 'rxjs';
+import { animationFrameScheduler, of, Subscription } from 'rxjs';
+import { observeOn, repeat } from 'rxjs/operators';
+
+// Animation loop observable
+const animationLoop$ = of(0).pipe(
+    observeOn(animationFrameScheduler),
+    repeat()
+)
 
 export class FourierOutputContext {
     constructor(id, scale=50) {

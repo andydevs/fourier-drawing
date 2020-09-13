@@ -5,15 +5,16 @@ Project Start Date: 9 - 10 - 2020
 Backlog
 ------------------------------------------------------------------------------------
 
-### Customize
+### Form Control Using React?
 
-- [x] Sawtooth Wave (9 - 12 - 2020)
-- [x] Triangle Wave (9 - 12 - 2020)
-- [x] Number of Elements (9 - 12 - 2020)
-- [x] Zoom Scale (9 - 12 - 2020)
-- [x] Create one control change observable in separate file (9 - 13 - 2020)
+- [ ] Import react
+- [ ] Include react mount point
+- [ ] Create form rendering
 
-### Shape Select
+Upcoming
+------------------------------------------------------------------------------------
+
+### Shape Fourier
 
 - [ ] Analyze fourier series from path
 - [ ] Create Shape
@@ -37,17 +38,23 @@ Backlog
     - [ ] How to use the form
 - [ ] Credits
 
-Upcoming
-------------------------------------------------------------------------------------
 
 Updates
 ------------------------------------------------------------------------------------
 
-- Move buildFourier code into FourierSeries and separated coefficient builder 
-    functions into builders.js (9 - 12 - 2020)
-
 Changelog
 ------------------------------------------------------------------------------------
+
+### v0.3.0 Customize
+
+- [x] Sawtooth Wave (9 - 12 - 2020)
+- [x] Triangle Wave (9 - 12 - 2020)
+- [x] Number of Elements (9 - 12 - 2020)
+- [x] Zoom Scale (9 - 12 - 2020)
+- [x] Create one control change observable in separate file (9 - 13 - 2020)
+- [x] Styled form (9 - 13 - 2020)
+- Move buildFourier code into FourierSeries and separated coefficient builder 
+    functions into builders.js (9 - 12 - 2020)
 
 #### v0.2.1: Regeneration Button
 

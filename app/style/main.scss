@@ -6,10 +6,40 @@
  */
 #app {
     text-align: center;
+    font-family: Calibri, 'Trebuchet MS', sans-serif;
 }
 
 #fourout {
     background-color: black;
     max-width: 100%;
     border-radius: 12pt;
+}
+
+#controls {
+    margin: 0pt 12pt;
+}
+.control {
+    display: block;
+    margin: 12pt 0pt;
+    label {
+        display: block;
+        margin: 6pt 0pt;
+        text-align: left;
+    }
+    input,select {
+        display: block;
+        width: 100%;
+    }
+    select {
+        padding: 6pt;
+    }
+}
+.button-control {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 12pt 0pt;
+    button {
+        flex: 1;
+        padding: 6pt;
+    }
 }

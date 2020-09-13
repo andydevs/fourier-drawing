@@ -7,6 +7,17 @@
 import { FourierState } from './state';
 
 export class FourierSeries {
+    static buildFourier(builder, n, fscale) {
+        console.group('Build Fourier')
+        const fourier = new FourierSeries()
+        for (let k = 1; k < n; k++) {
+            fourier.add(builder(k, fscale))
+        }
+        console.log(fourier)
+        console.groupEnd()
+        return fourier
+    }
+
     constructor(offset=false) {
         this.components = []
         if (!offset) {

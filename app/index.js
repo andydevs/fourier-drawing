@@ -7,9 +7,9 @@
 import './style/main.scss'
 import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { buildRandomFourier } from './fourier/builders/random';
-import { buildSquareFourier } from './fourier/builders/square';
 import { FourierOutputContext } from './fourier-output';
+import { FourierSeries } from './fourier/series';
+import { builders, random } from './fourier/builders';
 
 // -------------------------- FORM CONTROL -------------------------
 
@@ -22,34 +22,22 @@ const typeOnChange$ = fromEvent(typeSelect, 'change')
 const regenButton = document.getElementById('regenerate')
 const regenClick$ = fromEvent(regenButton, 'click')
 
-// ----------------------------- MAIN -----------------------------
-
-// Parameters
-const n = 50
-const fscale = 2
-let lastTyp = 'square'
-
-function update() {
-    // Get Update fourier
-    switch (lastTyp) {
-        case 'square':
-            fourier = buildSquareFourier(n, fscale)
-            break;
-        case 'random':
-            fourier = buildRandomFourier(n, fscale)
-            break;
-        default:
-            break;
-    }
-
-    // Animated
-    fctx.renderAnimation(fourier)
-}
+// ----------------------------- MAIN ------------------------------
 
 // Draw Context and initial animation
 let fctx = new FourierOutputContext('fourout')
-let fourier = buildSquareFourier(n, fscale)
-fctx.renderAnimation(fourier)
+
+// Initialize
+let n = 50
+let fscale = 2
+let lastTyp = 'wave-square'
+update(lastTyp, n, fscale)
+
+function update() {
+    let builder = builders[lastTyp] || random
+    let fourier = FourierSeries.buildFourier(builder, n, fscale)
+    fctx.renderAnimation(fourier)
+}
 
 // Change animation on type change
 typeOnChange$.subscribe(typ => {

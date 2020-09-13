@@ -41,6 +41,9 @@ Upcoming
 Updates
 ------------------------------------------------------------------------------------
 
+- Move buildFourier code into FourierSeries and separated coefficient builder 
+    functions into builders.js (9 - 12 - 2020)
+
 Changelog
 ------------------------------------------------------------------------------------
 

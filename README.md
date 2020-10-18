@@ -1,4 +1,4 @@
-SPA Boilerplate
+Fourier Drawing
 ===================================================================
 
 A visual that demos drawing paths using a fourier series.

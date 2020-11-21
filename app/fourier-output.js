@@ -14,7 +14,16 @@ const animationLoop$ = of(0).pipe(
     repeat()
 )
 
+/**
+ * Window to draw fourier system to
+ */
 export class FourierOutputContext {
+    /**
+     * Initialize object
+     * 
+     * @param {string} id    element id to attach
+     * @param {number} scale zoom scale output of fourier system
+     */
     constructor(id, scale=50) {
         this.canvas = document.getElementById(id)
         this.ctx = this.canvas.getContext('2d')
@@ -24,14 +33,29 @@ export class FourierOutputContext {
         this.current = Subscription.EMPTY
     }
 
+    /**
+     * Center point of draw context
+     */
     getOrigin() {
         return new Vector(this.width/2, this.height/2)
     }
 
+    /**
+     * Scale input point to fourier 
+     * draw context output scale
+     * 
+     * @param {Vector} r input point
+     */
     sCorrect(r) {
         return r.times(this.scale)
     }
 
+    /**
+     * Shift and scale input point to 
+     * fourier draw context output scale
+     * 
+     * @param {Vector} r input point
+     */
     correct(r) {
         let b = r
         b = this.sCorrect(b)
@@ -40,10 +64,18 @@ export class FourierOutputContext {
         return b
     }
 
+    /**
+     * Clear output context
+     */
     clear() {
         this.ctx.clearRect(0, 0, this.width, this.height)
     }
 
+    /**
+     * Draw fourier path onto context
+     * 
+     * @param {Array} path array of point objects
+     */
     drawPath(path) {
         this.ctx.lineWidth = '3'
         this.ctx.strokeStyle = '#045'
@@ -57,6 +89,11 @@ export class FourierOutputContext {
         this.ctx.stroke()
     }
 
+    /**
+     * Draw lines onto draw context
+     * 
+     * @param {FourierState} fourierState fourier state
+     */
     drawLines(fourierState) {
         // Initialize context
         this.ctx.lineWidth = '1'
@@ -77,6 +114,11 @@ export class FourierOutputContext {
         this.ctx.stroke()
     }
     
+    /**
+     * Draw circles onto draw context
+     * 
+     * @param {FourierState} fourierState fourier state
+     */
     drawCircles(fourierState) {
         // Initialize context
         this.ctx.lineWidth = '0.5'
@@ -92,6 +134,12 @@ export class FourierOutputContext {
         })
     }
 
+    /**
+     * Start animation loop
+     * 
+     * @param {FourierSeries} fourier fourier series
+     * @param {float} dth theta update every frame (speed)
+     */
     renderAnimation(fourier, dth=0.001) {
         this.current.unsubscribe()
         const path = fourier.getPath(dth)

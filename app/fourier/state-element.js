@@ -7,7 +7,18 @@
 import { Vector } from '../vector/vector';
 import { RotationMatrix } from '../vector/rotation';
 
+/**
+ * Element of fourier state
+ */
 export class FourierStateElement {
+    /**
+     * Initial FourierStateElement
+     * 
+     * @param {number} scale     scale of fourier vector
+     * @param {number} offset    offset angle
+     * @param {number} frequency rotational frequency
+     * @param {number} dth       angle change per frame 
+     */
     static initial(scale, offset, frequency, dth=0.005) {
         return new FourierStateElement(
             scale, offset, frequency,
@@ -16,6 +27,15 @@ export class FourierStateElement {
         )
     }
 
+    /**
+     * Construct fourier state element with vector
+     * 
+     * @param {number}         scale     scale of fourier vector
+     * @param {number}         offset    offset angle
+     * @param {number}         frequency rotational frequency
+     * @param {Vector}         vector    current vector 
+     * @param {RotationMatrix} rotation  current rotation matrix 
+     */
     constructor(scale, offset, frequency, vector, rotation) {
         this.scale = scale
         this.offset = offset
@@ -24,6 +44,9 @@ export class FourierStateElement {
         this.rotation = rotation
     }
 
+    /**
+     * Return updated fourier state element
+     */
     update() {
         return new FourierStateElement(
             this.scale,

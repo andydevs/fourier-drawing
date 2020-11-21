@@ -43,4 +43,6 @@ export const controlUpdate$ = combineLatest([
     zscaleOnChange$,
     regenClick$
 ])
-    .pipe(map(([typ, n, zscale, _]) => ({ typ, n, zscale })))
+    .pipe(
+        map(([typ, n, zscale, _]) => ({ typ, n, zscale }))
+    )

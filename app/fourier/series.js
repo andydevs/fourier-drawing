@@ -6,7 +6,17 @@
  */
 import { FourierState } from './state';
 
+/**
+ * Represent a Fourier Series
+ */
 export class FourierSeries {
+    /**
+     * Build fourier series based on function
+     * 
+     * @param {Function} builder function that returns fourier state for given n
+     * @param {number}   n       maximum number of fourier elements
+     * @param {number}   zscale  scale of fourier series
+     */
     static buildFourier(builder, n, zscale) {
         console.group('Build Fourier')
         const fourier = new FourierSeries()
@@ -18,6 +28,11 @@ export class FourierSeries {
         return fourier
     }
 
+    /**
+     * Initialize fourier series
+     * 
+     * @param {boolean} offset true if there is an offset
+     */
     constructor(offset=false) {
         this.components = []
         if (!offset) {
@@ -25,10 +40,20 @@ export class FourierSeries {
         }
     }
 
+    /**
+     * Add new scale offset point
+     * 
+     * @param {object} sov scale offset vector
+     */
     add(sov) {
         this.components.push(sov)
     }
 
+    /**
+     * Path array
+     * 
+     * @param {number} dth change in angle per frame
+     */
     getPath(dth=0.005) {
         console.group('FourierSeries.getPath')
         
@@ -57,6 +82,11 @@ export class FourierSeries {
         return path
     }
 
+    /**
+     * Initial fourier state
+     * 
+     * @param {number} dth change in angle per frame
+     */
     getInitialState(dth=0.005) {
         return FourierState.initial(this.components, dth)
     }
